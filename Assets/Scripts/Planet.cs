@@ -16,22 +16,28 @@ public class Planet : MonoBehaviour
     public List<Vector3> orbitPath = new List<Vector3>();
     public int maxOrbitPoints = 100;
 
+    
+
     void Start() {
         universe = GameObject.FindGameObjectWithTag("Manager").GetComponent<Universe>();
         
         rb = GetComponent<Rigidbody>();
+
+       
         currentVelocity = startingVelocity;
         
         planets = FindObjectsByType<Planet>(FindObjectsSortMode.None);
     }
 
     void FixedUpdate() {
-        // Attract each planet to every other planet
+        
         foreach(Planet other in planets) {
             if (other == this) continue;
+                
             Attractor.Attract(this, other, universe.G);
         }
-
+        
+        
         orbitPath.Add(transform.position);
 
         if (orbitPath.Count > maxOrbitPoints) {
